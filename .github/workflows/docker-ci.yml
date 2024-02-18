@@ -1,0 +1,26 @@
+name: MemorialInformat CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: fedora-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Build Docker Image
+        run: docker build -t memorial:latest .
+
+      - name: Push Docker Image to Registry
+        run: |
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+          docker tag memorial:latest $DOCKER_USERNAME/memorial:latest
+          docker push $DOCKER_USERNAME/memorial:latest
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
