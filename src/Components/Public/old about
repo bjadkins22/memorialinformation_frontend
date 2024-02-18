@@ -1,0 +1,563 @@
+import React from "react";
+import { Frontend_URL } from "../../environment";
+
+function About() {
+
+  
+  return (
+    <div>
+      <div className="main-about-page">
+        <div className="about-fixedimage">
+          <div
+            className="main-containerabout"
+            style={{
+              backgroundImage: `url(${Frontend_URL}img/beautiful-church-.jpg)`,
+              backgroundAttachment: "fixed",
+            }}
+          >
+            <div className="bgimage-contnet">
+              <div className="container p-3  mx-auto ">
+                <div className="toptextabout">
+                  <div className="image-textcontnet">
+                    <div className="center-sectioncontnet">
+                      <p className="merorialtext">Memorial Information</p>
+                      <h1 className="letus-text-contnet text-white">
+                        <span className="land-text-contnet">About</span>
+                      </h1>
+                      <p className="funeral-contnet mt-4">Homepage / About</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="container p-3 mx-auto">
+            <div className="memorial-div">
+              <div className="grid-imagecotnetmain">
+                <div className="grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 gap-16">
+                  <div className="grid-imagecotnet">
+                    <div className="rectangle1">
+                      <img src="/img/Group 7.png" className="w-full" />
+                    </div>
+                  </div>
+                  <div className="experincediff">
+                    <p className="merorialtextinfo today-infoo">
+                      today, tomorrow and beyond.
+                    </p>
+                    <h1 className="diffrence-contnet">
+                      {" "}
+                      <span className="exp-contnet">Experience</span> the <br />{" "}
+                      Difference{" "}
+                    </h1>
+                    <p className="established">
+                      Having established itself long ago as San Diego’s most
+                      prestigious funeral home and cemetery, Greenwood Memorial
+                      Park, Mortuary and Crematory is truly a place like no
+                      other.
+                    </p>
+
+                    <p className="built-text">
+                      Built in 1907 on a slight hill with an ocean view,
+                      Greenwood’s appeal began with its location.
+                    </p>
+                    <div className="main-group-stab mt-4">
+                      <div className="plan-aheadmain flex gap-4 mt-8">
+                        <div className="vector-iamges">
+                          <img src="/img/time.png" />
+                        </div>
+                        <div className="">
+                          <h1 className="plan-ahed">Plan Ahead - Pre-Plan</h1>
+                          <p className="decisions-contnet">
+                            You can make these important decisions in the
+                            privacy of your ownimport Link from
+                            'react-router-dom'; home
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="plan-aheadmain flex gap-4 mt-8">
+                        <div className="vector-iamges">
+                          <img src="/img/star.png" />
+                        </div>
+                        <div className="">
+                          <h1 className="plan-ahed">
+                            Experience the Difference
+                          </h1>
+                          <p className="decisions-contnet">
+                            We offer unique opportunities for families to create
+                            healing moments after loss.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="main-funeralcontnet bg-[#F7F6F3] ">
+            <div className="container p-3 mx-auto ">
+              <div className="iamge-contnetdiv">
+                <div className="grid md:grid-cols-2 sm:grid-cols-1 gap-16">
+                  <div>
+                    <p className="merorialtextinfo">Memorial Information</p>
+                    <h1 className="diffrence-contnet">
+                      <span className="exp-contnet">Enjoy</span> our quality{" "}
+                      <br />
+                      services{" "}
+                    </h1>
+                  </div>
+                  <div>
+                    <p className="established sty-contnet">
+                      Over the years, it has expanded to include several
+                      chapels, a mortuary, crematory, three mausoleums, a
+                      collection of international and rare vegetation and
+                      statuary.
+                    </p>
+
+                    <p className="established sty-contnet">
+                      Many prominent San Diego residents are laid to rest here
+                      and many of the markers tell a fascinating story.
+                    </p>
+                  </div>
+                </div>
+                <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-6 py-12">
+                  <div className="image-box">
+                    <div className="react-images">
+                      <img src="/img/Rectangle 10.png" />
+                    </div>
+                    <div className="main-graybox">
+                      <div className="contnet-divbox">
+                        <h1 className="funeral-text">
+                          San Diego Burial at Sea Captains
+                        </h1>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="image-box">
+                    <div className="react-images">
+                      <img src="/img/Rectangle 10 (1).png" />
+                    </div>
+                    <div className="main-graybox">
+                      <div className="contnet-divbox">
+                        <h1 className="funeral-text">
+                          Funeral Your Way is a licensed California
+                        </h1>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="image-box">
+                    <div className="react-images">
+                      <img src="/img/Rectangle 10 (2).png" />
+                    </div>
+                    <div className="main-graybox">
+                      <div className="contnet-divbox">
+                        <h1 className="funeral-text">
+                          One contact point for Cremation
+                        </h1>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="whychosefuneralcontnet">
+            <div className="container p-3 mx-auto px-12">
+              <div className="why-choosediv text-center">
+                <p className="merorialtextinfo today-infoo">
+                  today, tomorrow and beyond.
+                </p>
+
+                <h1 className="diffrence-contnet">
+                  <span className="exp-contnet"> Why </span>
+                  Choose Us{" "}
+                </h1>
+              </div>
+
+              <div className="flex items-center">
+                <div className="firstchoseeusecontnet">
+                  <div className="plan-aheadmain-contnet flex gap-4 my-[105px]">
+                    <div className="vector-iamges">
+                      <img src="/img/time.png" />
+                    </div>
+                    <div className="">
+                      <h1 className="plan-ahed">Practical Innovation </h1>
+                      <p className="decisions-contnet">
+                        We share information and strive to create an environment
+                        that welcomes
+                      </p>
+                    </div>
+                  </div>
+                  <div className="plan-aheadmain flex gap-4 my-[105px]">
+                    <div className="vector-iamges">
+                      <img src="/img/time.png" />
+                    </div>
+                    <div className="">
+                      <h1 className="plan-ahed">All-In Accountability</h1>
+                      <p className="decisions-contnet">
+                        We appreciate the power of diverse perspectives.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="plan-aheadmain-contnet flex gap-4 my-[105px]">
+                    <div className="vector-iamges">
+                      <img src="/img/time.png" />
+                    </div>
+                    <div className="">
+                      <h1 className="plan-ahed">Service Excellence</h1>
+                      <p className="decisions-contnet">
+                        Creating great solutions is an enterprise-wide team
+                        sport.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="Secondchoseeusecontnet">
+                  <img
+                    src="//webdesign-finder.com/santi/wp-content/uploads/2019/06/choose-us.jpg"
+                    alt="//webdesign-finder.com/santi/wp-content/uploads/2019/06/choose-us.jpg"
+                  />
+                </div>
+                <div className="firstchoseeusecontnet">
+                  <div className="plan-aheadmain-contnett1 flex gap-4 my-[105px]">
+                    <div className="vector-iamges">
+                      <img src="/img/time.png" />
+                    </div>
+                    <div className="">
+                      <h1 className="plan-ahed">Practical Innovation </h1>
+                      <p className="decisions-contnet">
+                        We share information and strive to create an environment
+                        that welcomes
+                      </p>
+                    </div>
+                  </div>
+                  <div className="plan-aheadmain flex gap-4 my-[105px]">
+                    <div className="vector-iamges">
+                      <img src="/img/time.png" />
+                    </div>
+                    <div className="">
+                      <h1 className="plan-ahed">All-In Accountability</h1>
+                      <p className="decisions-contnet">
+                        We appreciate the power of diverse perspectives.
+                      </p>
+                    </div>
+                  </div>
+                  <div className="plan-aheadmain flex gap-4 my-[105px]">
+                    <div className="vector-iamges">
+                      <img src="/img/time.png" />
+                    </div>
+                    <div className="">
+                      <h1 className="plan-ahed">Service Excellence</h1>
+                      <p className="decisions-contnet">
+                        Creating great solutions is an enterprise-wide team
+                        sport.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div
+            className="fixed-imagescontent"
+            style={{
+              backgroundImage: `url(${Frontend_URL}img/beautiful-church-.jpg)`,
+            }}
+          >
+            <div className="bgimage-contnet">
+              <div className="container p-3  mx-auto ">
+                <div className="toptextabout justify-center">
+                  <div className="image-textcontnetmerial">
+                    <div className="center-sectioncontnetmemo">
+                      <div className="center-sectioncontnetcontent text-center">
+                        <p className="merorialtextinfo today-infoo whitebox">
+                          today, tomorrow and beyond.
+                        </p>
+                        <h1 className="diffrence-contnet content-funreal">
+                          <span className="exp-contnet"> Eco </span>
+                          Funeral
+                        </h1>
+                        <p className="funeral-contnet mt-4">
+                          Santi is proud to offer green burials for those who
+                          are mindful of the environment. This unique option is
+                          the perfect way to leave behind an honorable legacy
+                          and a sustainable future for generations to come.
+                        </p>
+                      </div>
+                      <div className="learnmorebtn Shedule-btn flex justify-center gap-2 mt-6">
+                        <button className="learnmorebtnactive funeral-btn">
+                          Shedule ceremony
+                        </button>
+                        <button className="learnmorebtnunactive unfuneral-btn">
+                          Learn More
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="container mx-auto">
+            <div className="whychosefuneralcontnet">
+              <div className="text-center">
+                <p className="merorialtextinfo today-infoo">
+                  today, tomorrow and beyond.
+                </p>
+                <h1 className="diffrence-contnet">
+                  {" "}
+                  <span className="exp-contnet">Our </span> Team{" "}
+                </h1>
+              </div>
+              <div className="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
+                <div className="grid gap-10 sm:grid-cols-1 lg:grid-cols-3">
+                  <div className="main-cardteammember">
+                    <div className="main-cardteammember relative overflow-hidden transition duration-300 transform  hover:shadow-2xl">
+                      <img
+                        className="our-teamimages-card"
+                        src="https://webdesign-finder.com/santi/wp-content/uploads/2019/05/team-03.jpg"
+                        alt="Person"
+                      />
+                      <div className="absolute inset-0 flex flex-col justify-center px-5 py-4 text-center transition-opacity duration-300 bg-black bg-opacity-75 opacity-0 hover:opacity-100">
+                        <p className="mb-1 text-lg font-bold text-gray-100">
+                          Andrew Larkin
+                        </p>
+                        <p className="mb-4 text-xs text-gray-100">
+                          Backend Developer
+                        </p>
+                        <p className="mb-4 text-xs tracking-wide text-gray-400">
+                          Moonfish, steelhead, lamprey southern flounder tadpole
+                          fish bigeye.
+                        </p>
+                        <div className="flex items-center justify-center space-x-3">
+                          <a
+                            href="/"
+                            className="text-white transition-colors duration-300 hover:text-teal-accent-400"
+                          >
+                            <svg
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                              className="h-5"
+                            >
+                              <path d="M24,4.6c-0.9,0.4-1.8,0.7-2.8,0.8c1-0.6,1.8-1.6,2.2-2.7c-1,0.6-2,1-3.1,1.2c-0.9-1-2.2-1.6-3.6-1.6 c-2.7,0-4.9,2.2-4.9,4.9c0,0.4,0,0.8,0.1,1.1C7.7,8.1,4.1,6.1,1.7,3.1C1.2,3.9,1,4.7,1,5.6c0,1.7,0.9,3.2,2.2,4.1 C2.4,9.7,1.6,9.5,1,9.1c0,0,0,0,0,0.1c0,2.4,1.7,4.4,3.9,4.8c-0.4,0.1-0.8,0.2-1.3,0.2c-0.3,0-0.6,0-0.9-0.1c0.6,2,2.4,3.4,4.6,3.4 c-1.7,1.3-3.8,2.1-6.1,2.1c-0.4,0-0.8,0-1.2-0.1c2.2,1.4,4.8,2.2,7.5,2.2c9.1,0,14-7.5,14-14c0-0.2,0-0.4,0-0.6 C22.5,6.4,23.3,5.5,24,4.6z" />
+                            </svg>
+                          </a>
+                          <a
+                            href="/"
+                            className="text-white transition-colors duration-300 hover:text-teal-accent-400"
+                          >
+                            <svg
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                              className="h-5"
+                            >
+                              <path d="M22,0H2C0.895,0,0,0.895,0,2v20c0,1.105,0.895,2,2,2h11v-9h-3v-4h3V8.413c0-3.1,1.893-4.788,4.659-4.788 c1.325,0,2.463,0.099,2.795,0.143v3.24l-1.918,0.001c-1.504,0-1.795,0.715-1.795,1.763V11h4.44l-1,4h-3.44v9H22c1.105,0,2-0.895,2-2 V2C24,0.895,23.105,0,22,0z" />
+                            </svg>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="team-contnetid">
+                      <div className="item-content text-center">
+                        <h6 className="team-name ">David D. Schneider</h6>
+                        <p className="merorialtextinfo today-infoo">cofounder</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="main-cardteammember">
+                    <div className="main-cardteammember relative overflow-hidden transition duration-300 transform  hover:shadow-2xl">
+                      <img
+                        className="our-teamimages-card"
+                        src="https://webdesign-finder.com/santi/wp-content/uploads/2019/05/team-04.jpg"
+                        alt="Person"
+                      />
+                      <div className="absolute inset-0 flex flex-col justify-center px-5 py-4 text-center transition-opacity duration-300 bg-black bg-opacity-75 opacity-0 hover:opacity-100">
+                        <p className="mb-1 text-lg font-bold text-gray-100">
+                          Andrew Larkin
+                        </p>
+                        <p className="mb-4 text-xs text-gray-100">
+                          Backend Developer
+                        </p>
+                        <p className="mb-4 text-xs tracking-wide text-gray-400">
+                          Moonfish, steelhead, lamprey southern flounder tadpole
+                          fish bigeye.
+                        </p>
+                        <div className="flex items-center justify-center space-x-3">
+                          <a
+                            href="/"
+                            className="text-white transition-colors duration-300 hover:text-teal-accent-400"
+                          >
+                            <svg
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                              className="h-5"
+                            >
+                              <path d="M24,4.6c-0.9,0.4-1.8,0.7-2.8,0.8c1-0.6,1.8-1.6,2.2-2.7c-1,0.6-2,1-3.1,1.2c-0.9-1-2.2-1.6-3.6-1.6 c-2.7,0-4.9,2.2-4.9,4.9c0,0.4,0,0.8,0.1,1.1C7.7,8.1,4.1,6.1,1.7,3.1C1.2,3.9,1,4.7,1,5.6c0,1.7,0.9,3.2,2.2,4.1 C2.4,9.7,1.6,9.5,1,9.1c0,0,0,0,0,0.1c0,2.4,1.7,4.4,3.9,4.8c-0.4,0.1-0.8,0.2-1.3,0.2c-0.3,0-0.6,0-0.9-0.1c0.6,2,2.4,3.4,4.6,3.4 c-1.7,1.3-3.8,2.1-6.1,2.1c-0.4,0-0.8,0-1.2-0.1c2.2,1.4,4.8,2.2,7.5,2.2c9.1,0,14-7.5,14-14c0-0.2,0-0.4,0-0.6 C22.5,6.4,23.3,5.5,24,4.6z" />
+                            </svg>
+                          </a>
+                          <a
+                            href="/"
+                            className="text-white transition-colors duration-300 hover:text-teal-accent-400"
+                          >
+                            <svg
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                              className="h-5"
+                            >
+                              <path d="M22,0H2C0.895,0,0,0.895,0,2v20c0,1.105,0.895,2,2,2h11v-9h-3v-4h3V8.413c0-3.1,1.893-4.788,4.659-4.788 c1.325,0,2.463,0.099,2.795,0.143v3.24l-1.918,0.001c-1.504,0-1.795,0.715-1.795,1.763V11h4.44l-1,4h-3.44v9H22c1.105,0,2-0.895,2-2 V2C24,0.895,23.105,0,22,0z" />
+                            </svg>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="team-contnetid">
+                      <div className="item-content text-center">
+                        <h6 className="team-name ">Louise J. Neal </h6>
+                        <p className="merorialtextinfo today-infoo">manager</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="main-cardteammember">
+                    <div className="main-cardteammember relative overflow-hidden transition duration-300 transform  hover:shadow-2xl">
+                      <img
+                        className="our-teamimages-card"
+                        src="https://webdesign-finder.com/santi/wp-content/uploads/2019/05/team-02.jpg"
+                        alt="Person"
+                      />
+                      <div className="absolute inset-0 flex flex-col justify-center px-5 py-4 text-center transition-opacity duration-300 bg-black bg-opacity-75 opacity-0 hover:opacity-100">
+                        <p className="mb-1 text-lg font-bold text-gray-100">
+                          Andrew Larkin
+                        </p>
+                        <p className="mb-4 text-xs text-gray-100">
+                          Backend Developer
+                        </p>
+                        <p className="mb-4 text-xs tracking-wide text-gray-400">
+                          Moonfish, steelhead, lamprey southern flounder tadpole
+                          fish bigeye.
+                        </p>
+                        <div className="flex items-center justify-center space-x-3">
+                          <a
+                            href="/"
+                            className="text-white transition-colors duration-300 hover:text-teal-accent-400"
+                          >
+                            <svg
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                              className="h-5"
+                            >
+                              <path d="M24,4.6c-0.9,0.4-1.8,0.7-2.8,0.8c1-0.6,1.8-1.6,2.2-2.7c-1,0.6-2,1-3.1,1.2c-0.9-1-2.2-1.6-3.6-1.6 c-2.7,0-4.9,2.2-4.9,4.9c0,0.4,0,0.8,0.1,1.1C7.7,8.1,4.1,6.1,1.7,3.1C1.2,3.9,1,4.7,1,5.6c0,1.7,0.9,3.2,2.2,4.1 C2.4,9.7,1.6,9.5,1,9.1c0,0,0,0,0,0.1c0,2.4,1.7,4.4,3.9,4.8c-0.4,0.1-0.8,0.2-1.3,0.2c-0.3,0-0.6,0-0.9-0.1c0.6,2,2.4,3.4,4.6,3.4 c-1.7,1.3-3.8,2.1-6.1,2.1c-0.4,0-0.8,0-1.2-0.1c2.2,1.4,4.8,2.2,7.5,2.2c9.1,0,14-7.5,14-14c0-0.2,0-0.4,0-0.6 C22.5,6.4,23.3,5.5,24,4.6z" />
+                            </svg>
+                          </a>
+                          <a
+                            href="/"
+                            className="text-white transition-colors duration-300 hover:text-teal-accent-400"
+                          >
+                            <svg
+                              viewBox="0 0 24 24"
+                              fill="currentColor"
+                              className="h-5"
+                            >
+                              <path d="M22,0H2C0.895,0,0,0.895,0,2v20c0,1.105,0.895,2,2,2h11v-9h-3v-4h3V8.413c0-3.1,1.893-4.788,4.659-4.788 c1.325,0,2.463,0.099,2.795,0.143v3.24l-1.918,0.001c-1.504,0-1.795,0.715-1.795,1.763V11h4.44l-1,4h-3.44v9H22c1.105,0,2-0.895,2-2 V2C24,0.895,23.105,0,22,0z" />
+                            </svg>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="team-contnetid">
+                      <div className="item-content text-center">
+                        <h6 className="team-name ">Brad J. Tate </h6>
+                        <p className="merorialtextinfo today-infoo">support</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="whychosefuneralcontnetbgim">
+            <div
+              className="main-containerabout"
+              style={{
+                backgroundImage: `url(${Frontend_URL}img/bgglass.jpg)`,
+              }}
+            >
+              <div className="bgimage-contnet">
+                <div className="container mx-auto ">
+                  <div className="toptextabout11">
+                    <div className="image-textcontnet">
+                      <div className="center-sectioncontnet">
+                        <div className="grid grid-cols-2 gap-4 items-center">
+                          <div className="">
+                            <div className="sidefounder">
+                              <p className="merorialtextinfo today-infoo">
+                                today, tomorrow and beyond.
+                              </p>
+                              <h1 className="diffrence-contnet">
+                                {" "}
+                                <span className="exp-contnet">
+                                  Welcome to
+                                </span>{" "}
+                                Santi
+                              </h1>
+                              <p className="established">
+                                For those unfamiliar with Belle Benchley, for
+                                example, it might come as a surprise to stumble
+                                across a grave marker depicting the face of a
+                                gorilla.
+                              </p>
+
+                              <p className="built-text">
+                                Known as The Zoo Lady, Benchley was the director
+                                of the San Diego Zoo from 1927 to 1953
+                              </p>
+
+                              <div className="flex gap-12 items-center">
+                                <div>
+                                  <button className="learnmorebtnactive funeral-btn">
+                                    Contact us
+                                  </button>
+                                </div>
+
+                                <div className="or-contnet-text">or</div>
+
+                                <div>
+                                  <a className="learn-more-contnetbtn" href="">
+                                    Learn More
+                                  </a>
+                                </div>
+                                <div>
+                                  <img src="/img/signature.png" />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="">
+                            <div className="founder-image">
+                              <img src="/img/founder-02.png" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+         
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default About;

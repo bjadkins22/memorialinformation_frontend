@@ -1,0 +1,15 @@
+# Dependency directories
+node_modules/
+
+# Production build
+build/
+
+# Cache directories
+.cache/
+dist/
+
+# Environment files
+.env*
+
+# Log files
+*.log

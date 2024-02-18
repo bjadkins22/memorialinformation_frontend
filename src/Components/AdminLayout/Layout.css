@@ -1,0 +1,30 @@
+/* .Layout {
+  width: 100%;
+  height: 100vh;
+} */
+.DashBoard {
+  display: flex;
+}
+/* .Header {
+  width: 100%;
+  height: 64px;
+} */
+/* .Sidebar {
+  width: 256px;
+  height: calc(100vh - 64px);
+} */
+/* .Outlet {
+  width: calc(100% - 256px);
+  height: calc(100vh - 64px);
+  overflow: scroll;
+} */
+
+.Outlet {
+  width: 100%;
+}
+
+/* .Sidebar {
+  width: 20%;
+} */
+
+

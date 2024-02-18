@@ -1,0 +1,252 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@media (min-width: 320px) and (max-width: 768px) {
+  .formRegister {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    gap: 10px;
+  }
+
+  .lnane {
+    margin-top: 32px !important;
+  }
+
+  .experincediff {
+    padding: 0px 30px;
+  }
+
+  .main-graybox {
+    padding: 0 !important;
+    position: initial !important;
+  }
+
+  .center-sectioncontnet {
+    margin-left: 8px !important;
+  }
+
+  .iamge-contnetdiv {
+    padding: 90px 0px !important;
+  }
+
+  /* saa */
+  .main-container {
+    height: unset !important;
+  }
+
+  .toptext {
+    height: unset !important;
+  }
+
+  .letus-text-contnet {
+    font-size: 25px !important;
+  }
+
+  h1.letus-text-contnet {
+    line-height: unset !important;
+  }
+
+  p.merorialtext {
+    font-size: 8px !important;
+  }
+
+  p.funeral-contnet {
+    font-size: 14px !important;
+    margin-top: 17px !important;
+    margin-bottom: 18px !important;
+  }
+
+  .learnmorebtn {
+    margin-top: 10px !important;
+  }
+
+  .learnmorebtnactive {
+    width: 90px !important;
+    background: beige;
+    padding: 7px 0px !important;
+    border-radius: 8px;
+    font-size: 12px !important;
+  }
+
+  .learnmorebtnunactive {
+    width: 90px !important;
+    background: beige;
+    padding: 7px 0px !important;
+    border-radius: 8px;
+    font-size: 12px !important;
+  }
+
+  p.merorialtextinfo {
+    font-size: 13px !important;
+  }
+
+  h1.diffrence-contnet {
+    line-height: 36px !important;
+    font-size: 32px !important;
+  }
+
+  p.established {
+    font-size: 11px !important;
+    margin: 15px 0px !important;
+  }
+
+  p.built-text {
+    font-size: 14px !important;
+  }
+
+  h1.plan-ahed {
+    font-size: 14px !important;
+  }
+
+  p.decisions-contnet {
+    font-size: 14px !important;
+  }
+
+  h1.provide-emo {
+    line-height: 29px !important;
+    font-size: 26px !important;
+  }
+
+  button.make-appontbtn {
+    width: 195px !important;
+    padding: 9px 0px !important;
+  }
+
+  .iamge-contnetdiv > div {
+    gap: 10px !important;
+  }
+
+  .toptextmain {
+    height: unset !important;
+  }
+
+  .copyright-footer {
+    padding: 10px;
+  }
+
+  h2.nedd-helptext {
+    font-size: 13px !important;
+  }
+
+  .preplan-btn {
+    font-size: 13px !important;
+    width: 100px !important;
+    padding: 8px 0px !important;
+  }
+
+  .latest-newscardsshow {
+    margin-top: 12px;
+  }
+
+  .plan-aheadmain {
+    display: block !important;
+    text-align: center !important;
+  }
+
+  p.decisions-contnet {
+    text-align: center !important;
+  }
+
+  .vector-iamges {
+    display: flex !important;
+    justify-content: center !important;
+    margin-bottom: 20px !important;
+  }
+
+  .main-testhideediv {
+    width: fit-content !important;
+  }
+
+  .contnet-divbox {
+    background: #486173;
+    height: 110px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+    padding: 0 !important;
+  }
+
+  nav.auth-login-signup {
+    margin-top: 27px !important;
+  }
+
+  .menuebar-list {
+    gap: 12px !important;
+  }
+
+  .grid-imagecotnetmain {
+    margin: 30px 0px !important;
+  }
+
+  i.fa.fa-bars.responsive-bars {
+    display: block !important;
+  }
+
+  .activemenu {
+    transition: 0.5s;
+    height: 340px;
+  }
+
+  .main-graybox {
+    padding: 0 !important;
+    position: initial !important;
+  }
+
+  .unactivemenu {
+    transition: 0.5s;
+    height: 0;
+  }
+
+  .toptextabout {
+    height: auto !important;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .iamge-contnetdiv {
+    padding: 25px 10px !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .main-graybox {
+    padding: 0 !important;
+    position: initial !important;
+  }
+}
+
+@media (min-width: 1275px) and (max-width: 1375px) {
+  .container {
+    max-width: 1200px !important;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1500px) {
+  .main-graybox {
+    padding: 0px 21px !important;
+  }
+
+  .iamge-contnetdiv {
+    padding: 90px 0px !important;
+  }
+}
+
+
+
+

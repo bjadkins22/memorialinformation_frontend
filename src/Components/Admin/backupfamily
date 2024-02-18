@@ -1,0 +1,1505 @@
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import swal from "sweetalert";
+import {
+  DeletePermissionListAction,
+  DeleteimagesgalleryAction,
+  FamilyTodoDeleteListAction,
+  FamilyTodoListShowAction,
+  GetImagesgalleryAction,
+  GetPermissionListAction,
+  GivePermissionLegacypagePostAction,
+  LagacyCodeAddAction,
+  LegacyDeleteAllDataAction,
+  LegacyDeleteOnByOneModalAction,
+  LegacyListShowAction,
+  MemberListshowLegAcyaction,
+  MemberPermissionGrantAction,
+  MemberPermissionGrantReducer,
+} from "../../Redux/actions/LegacyAction";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Slide from "@mui/material/Slide";
+import {
+  AllRoleGetAction,
+  InviteUserAction,
+} from "../../Redux/actions/UserAction";
+import { validations } from "../../utils";
+import LoaderSpinner from "../Loader/Loader-spinner";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import moment from "moment";
+import Stack from "@mui/material/Stack";
+import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import EventsList from "./EventsList";
+import { Calendar, momentLocalizer } from "react-big-calendar";
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import {
+  EventsDeleteAction,
+  EventsListGetAction,
+} from "../../Redux/actions/EventsAction";
+import Gallery from "./Gallery";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
+const localizer = momentLocalizer(moment);
+
+function Family_page() {
+  const dispatch = useDispatch();
+
+  const [User_id, setUser_id] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
+  const [open, setOpen] = React.useState(false);
+  const [EmailsendRender, setEmailsendRender] = useState(false);
+  const [codeopen, setCodeOpen] = React.useState(false);
+  const [loading, setLoading] = useState(true);
+  const [legacydata, setLegacyData] = useState([]);
+  const [addCode, setAddcode] = useState("");
+  const [CodeAddRender, setCodeAddRender] = useState(false);
+  const [legacypageOpen, setlegacypageOpen] = React.useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openpopup = Boolean(anchorEl);
+  const [opensnackbar, setOpensnackbar] = React.useState(false);
+  const [PermissionPopupOpen, setPermissionPopupOpen] = React.useState(false);
+  const [errors, setErrors] = useState({
+    email: "",
+    role: "",
+  });
+
+  const { success: deleteLegacySucess } = useSelector(
+    (state) => state.LegacyDeleteAllDataReducer
+  );
+
+  const { success: oneByoneModaldeleteSuccess } = useSelector(
+    (state) => state.LegacyDeleteOnByOneModalReducer
+  );
+
+  useEffect(() => {
+    dispatch(LegacyListShowAction(userData?.user?.user_id));
+  }, [deleteLegacySucess, oneByoneModaldeleteSuccess]);
+
+  // invite user
+
+  useEffect(() => {
+    dispatch(AllRoleGetAction());
+  }, []);
+
+  const { AllRoleGet } = useSelector((state) => state.AllRoleGetReducer);
+  const { userData } = useSelector((state) => state.authReducer);
+
+  const { LegacyListShow } = useSelector(
+    (state) => state.LegacyListShowReducer
+  );
+
+  const { success: codeaddSuccess, error: errorCodeadd } = useSelector(
+    (state) => state.LagacyCodeAddReducer
+  );
+  const {
+    success: successEmailsend,
+    error: erroremailsend,
+    message: emailmessage,
+    loading: emailsendLoad,
+  } = useSelector((state) => state.InviteUserReducer);
+
+  const { success: postSuccess } = useSelector(
+    (state) => state.GivePermissionLegacypagePostReducer
+  );
+  const { success: deleteSuccess } = useSelector(
+    (state) => state.DeletePermissionListReducer
+  );
+
+  const validateSubmit = (e) => {
+    e.preventDefault();
+
+    const tempErrors = {
+      email: validations.email(email),
+      role: validations.role(role),
+    };
+    setErrors(tempErrors);
+    if (Object.values(tempErrors).filter((value) => value).length) {
+      return;
+    }
+    InviteUserSubmit();
+  };
+
+  const InviteUserSubmit = () => {
+    const formData = new FormData();
+    formData.append("invitee_email", email);
+    formData.append("invitee_role", role);
+    formData.append("legacy_page", LegacyListShow?.[0]?.id);
+    formData.append("inviter", userData?.user?.user_id);
+
+    dispatch(InviteUserAction(formData));
+    setEmailsendRender(true);
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    if (successEmailsend && EmailsendRender) {
+      swal({
+        title: " ",
+        text: emailmessage,
+        className: "successAlert",
+        icon: "/img/Memorial icon.png",
+        buttons: false,
+        timer: 5000,
+      });
+      setEmailsendRender(false);
+      handleClose();
+    }
+    if (erroremailsend && EmailsendRender) {
+      swal({
+        title: "Error",
+        text: erroremailsend,
+        className: "errorAlert",
+        icon: "/img/Memorial icon.png",
+        buttons: false,
+        timer: 2000,
+      });
+      setEmailsendRender(false);
+    }
+  }, [successEmailsend, erroremailsend, EmailsendRender]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+  const handleClickOpenCode = () => {
+    setCodeOpen(true);
+  };
+
+  const handleCloseCode = () => {
+    setCodeOpen(false);
+  };
+
+  const SetUserCodeSubmit = () => {
+    const formData = new FormData();
+    formData.append("legacy_page", LegacyListShow?.[0]?.id);
+    formData.append("code", addCode);
+
+    dispatch(LagacyCodeAddAction(formData));
+    setCodeAddRender(true);
+  };
+
+  useEffect(() => {
+    if (codeaddSuccess && CodeAddRender) {
+      swal({
+        title: " ",
+        text: "Password Added Sucessfully!",
+        className: "successAlert",
+        icon: "/img/Memorial icon.png",
+        buttons: false,
+        timer: 5000,
+      });
+      setAddcode("");
+      setCodeAddRender(false);
+      handleCloseCode();
+    }
+    if (errorCodeadd && CodeAddRender) {
+      swal({
+        title: "Error",
+        text: errorCodeadd,
+        className: "errorAlert",
+        icon: "/img/Memorial icon.png",
+        buttons: false,
+        timer: 2000,
+      });
+      setCodeAddRender(false);
+    }
+  }, [codeaddSuccess, errorCodeadd, CodeAddRender]);
+
+  useEffect(() => {
+    setLegacyData(LegacyListShow?.[0]);
+  }, []);
+
+  const handleClickOpenLegacy = () => {
+    setlegacypageOpen(true);
+  };
+
+  const handleClickCloseLegacy = () => {
+    setlegacypageOpen(false);
+  };
+
+  // permission
+
+  const { GetPermissionList } = useSelector(
+    (state) => state.GetPermissionListReducer
+  );
+
+  const { MemberPermissionGrant } = useSelector(
+    (state) => state.MemberPermissionGrantReducer
+  );
+
+  useEffect(() => {
+    dispatch(MemberPermissionGrantAction());
+  }, []);
+
+  const [PermissionList, setPermissionList] = useState([]);
+
+  useEffect(() => {
+    if (MemberPermissionGrant) {
+      setPermissionList(MemberPermissionGrant);
+    }
+  }, [MemberPermissionGrant, postSuccess, deleteSuccess]);
+
+  useEffect(() => {
+    if (User_id) {
+      dispatch(GetPermissionListAction(User_id, LegacyListShow?.[0]?.id));
+    }
+  }, [User_id, postSuccess, deleteSuccess]);
+
+  // permission
+  const { MemberListshowLegacy } = useSelector(
+    (state) => state.MemberListshowLegacyReducer
+  );
+
+  useEffect(() => {
+    dispatch(MemberListshowLegAcyaction(LegacyListShow?.[0]?.id));
+  }, []);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClosepopup = () => {
+    setAnchorEl(null);
+  };
+
+  // give Permission
+
+  const isPermissionChecked = (permissionId) => {
+    return GetPermissionList?.some(
+      (item) => item.permission_id === permissionId
+    );
+  };
+
+  const PermissionSubmit = (permissionId) => {
+    const formData = new FormData();
+    formData.append("permission_codename_id", permissionId);
+    formData.append("user_id", User_id);
+    formData.append("legacy_id", LegacyListShow?.[0]?.id);
+
+    if (isPermissionChecked(permissionId)) {
+      dispatch(DeletePermissionListAction(User_id, permissionId));
+    } else {
+      dispatch(GivePermissionLegacypagePostAction(formData));
+    }
+    setEmailsendRender(true);
+  };
+
+  const handleClickOpenPermission = () => {
+    setPermissionPopupOpen(true);
+  };
+
+  const handleClickClosePermission = () => {
+    setPermissionPopupOpen(false);
+  };
+
+  const handleClosesnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpensnackbar(false);
+  };
+
+  const DeleteLegacy = (id) => {
+    swal({
+      title: "Warning",
+      text: "Are you sure you want to delete this event?",
+      className: "errorAlert",
+      icon: "/img/Memorial icon.png",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        dispatch(LegacyDeleteAllDataAction(legacydata?.id));
+        swal({
+          title: "",
+          text: "Successfully Deleted!",
+          className: "successAlert",
+          icon: "/img/Memorial icon.png",
+          buttons: false,
+          timer: 1500,
+        });
+      }
+    });
+  };
+
+  // Event \
+
+  const { EventsListGetList, success } = useSelector(
+    (state) => state.EventsListGetReducer
+  );
+
+  const { success: deletesuccess } = useSelector(
+    (state) => state.EventsDeleteReducer
+  );
+
+  useEffect(() => {
+    dispatch(EventsListGetAction());
+  }, [deletesuccess]);
+
+  const [usersForRender, setUsersForRender] = useState([]);
+
+  useEffect(() => {
+    let userData = [];
+    EventsListGetList?.map((item, index) => {
+      item.title = item.title;
+      item.date = item.date;
+      item.description = item.description.slice(0, 30) + "...";
+
+      item.action = (
+        <div className="flex text-lg">
+          <Link
+            title="edit"
+            className="EditBut editAdminButton"
+            to={`/add-blogs/${item.id}`}
+          >
+            <i className="fas fa-pencil pr-2 text-blue-500 "></i>
+          </Link>
+          <div className="flex">
+            <button
+              title="delete"
+              className="deletebutt"
+              onClick={() => deleteHandler(item.id)}
+            >
+              <i className="fa fa-trash text-red-500"></i>
+            </button>
+          </div>
+        </div>
+      );
+      userData.push(item);
+    });
+
+    setUsersForRender(userData);
+  }, [EventsListGetList]);
+
+  const data = {
+    columns: [
+      {
+        label: "Title",
+        field: "title",
+        sort: "asc",
+        width: 500,
+      },
+      {
+        label: "Description",
+        field: "description",
+        sort: "asc",
+        width: 500,
+      },
+      {
+        label: "date",
+        field: "date",
+        sort: "asc",
+        width: 500,
+      },
+      {
+        label: "Action",
+        field: "action",
+        sort: "asc",
+        width: 100,
+      },
+    ],
+    rows: usersForRender,
+  };
+
+  const deleteHandler = (id) => {
+    swal({
+      title: "Warning",
+      text: "Are you sure you want to delete this event?",
+      className: "errorAlert",
+      icon: "/img/Memorial icon.png",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        dispatch(EventsDeleteAction(id));
+        swal({
+          title: "",
+          text: "Successfully Deleted!",
+          className: "successAlert",
+          icon: "/img/Memorial icon.png",
+          buttons: false,
+          timer: 1500,
+        });
+      }
+    });
+  };
+
+  const [tooltipEvent, setTooltipEvent] = useState(null);
+
+  const events = EventsListGetList?.map((event) => ({
+    id: event.id,
+    title: event.title,
+    start: moment(event.date).toDate(),
+    end: moment(event.date).toDate(),
+    description: event.description,
+  }));
+
+  const handleEventMouseOver = (event) => {
+    setTooltipEvent(event);
+  };
+
+  const handleEventMouseOut = () => {
+    setTooltipEvent(null);
+  };
+
+  //   Todo List
+  const { FamilyTodoListShow } = useSelector(
+    (state) => state.FamilyTodoListShowReducer
+  );
+
+  //   const { success: deletesuccess } = useSelector(
+  //     (state) => state.FamilyTodoDeleteListReducer
+  //   );
+
+  useEffect(() => {
+    dispatch(FamilyTodoListShowAction());
+  }, []);
+
+  const deleteHandlerTodo = (id) => {
+    swal({
+      title: "Warning",
+      text: "Are you sure you want to delete this event?",
+      className: "errorAlert",
+      icon: "/img/Memorial icon.png",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        dispatch(FamilyTodoDeleteListAction(id));
+        swal({
+          title: "",
+          text: "Successfully Deleted!",
+          className: "successAlert",
+          icon: "/img/Memorial icon.png",
+          buttons: false,
+          timer: 1500,
+        });
+      }
+    });
+  };
+
+  //   Gallery
+
+  const { GetImagesgallery } = useSelector(
+    (state) => state.GetImagesgalleryReducer
+  );
+
+  const { success: deleteGalleryPhoto } = useSelector(
+    (state) => state.DeleteimagesgalleryReducer
+  );
+
+  useEffect(() => {
+    dispatch(GetImagesgalleryAction());
+  }, [deleteGalleryPhoto]);
+
+  const DeleteImage = (id) => {
+    swal({
+      title: "Warning",
+      text: "Are you sure you want to delete this image?",
+      className: "errorAlert",
+      icon: "/img/Memorial icon.png",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        dispatch(DeleteimagesgalleryAction(id));
+        swal({
+          title: "",
+          text: "Successfully Deleted!",
+          className: "successAlert",
+          icon: "/img/Memorial icon.png",
+          buttons: false,
+          timer: 1500,
+        });
+      }
+    });
+  };
+
+  return (
+    <>
+      <div>
+        {emailsendLoad ? (
+          <LoaderSpinner />
+        ) : (
+          <div className="">
+            <div className="main-page-div bg-green-200">
+              <h1 className="heading-top">Family Page</h1>
+              <div className="common-divbg bg-white">
+                <div className="Topallpage AllPageHight Custompage">
+                  <div class="p-8">
+                    <div className="">
+                      {" "}
+                      <h4 class="team-name legacy-det text-4xl font-bold text-gray-800 tracking-widest uppercase text-center flex justify-center gap-6">
+                        <h1 class="diffrence-contnet">Family Page</h1>
+                        <div class="flex items-center">
+                          <div class="edit-button-inputt">
+                            <button
+                              onClick={handleClickOpenLegacy}
+                              class="flex p-2.5 bg-yellow-500 rounded-xl hover:rounded-3xl hover:bg-yellow-600 transition-all duration-300 text-white"
+                            >
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="h-6 w-6"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                                />
+                              </svg>
+                            </button>
+                          </div>
+                        </div>
+                      </h4>
+                      <p class="merorialtextinfo today-infoo mt-2 text-center">
+                        {/* {legacydata?.} */}
+                      </p>
+                      <p class="merorialtextinfo today-infoo mt-2 text-center">
+                        Here are some of the Family Details
+                      </p>
+                    </div>
+
+                    {/* Event  */}
+
+                    <div className="card-legacydetailsshow mt-4">
+                      <div className="details-pageleg">
+                        <div className="">
+                          <h6 className="team-name legacy-det">All Events</h6>
+
+                          <div>
+                            <div className="Topallpage AllPageHight Custompage">
+                              <div className="addevent-detailscalendar">
+                                <Link to="/events">
+                                  <button className="add-event-showtab">
+                                    Add Event
+                                  </button>
+                                </Link>
+                              </div>
+
+                              <div>
+                                {/* <h1 className="heading-top">All Events</h1> */}
+                                <Calendar
+                                  localizer={localizer}
+                                  events={events}
+                                  startAccessor="start"
+                                  endAccessor="end"
+                                  style={{ height: 500 }}
+                                  onSelectEvent={handleEventMouseOver}
+                                  onDrillDown={handleEventMouseOut}
+                                  onSelectSlot={handleEventMouseOut}
+                                  components={{
+                                    event: ({ event }) => (
+                                      <div>
+                                        <strong>
+                                          <Link
+                                            to={`/events-detail/${event.id}`}
+                                          >
+                                            {event.title}
+                                          </Link>
+                                        </strong>
+                                      </div>
+                                    ),
+                                  }}
+                                />
+                                {tooltipEvent && (
+                                  <div className="event-tooltip">
+                                    <strong>{tooltipEvent.title}</strong>
+                                    <p>{tooltipEvent.description}</p>
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {/* Todo map */}
+
+                    <div className="card-legacydetailsshow mt-4">
+                      <div className="details-pageleg">
+                        <div className="">
+                          <h6 className="team-name legacy-det">Todo </h6>
+                          <div>
+                            <div>
+                              <div className="Topallpage AllPageHight Custompage">
+                                <div className="addevent-detailscalendar">
+                                  <Link to="/todo">
+                                    <button className="add-event-showtab">
+                                      Add Todo
+                                    </button>
+                                  </Link>
+                                </div>
+
+                                <div className="Topallpage AllPageHight Custompage mt-4">
+                                  {FamilyTodoListShow?.length > 0 ? (
+                                    <>
+                                      <div className="grid grid-cols-4 gap-4">
+                                        {FamilyTodoListShow?.slice(0, 4)?.map(
+                                          (item) => (
+                                            <>
+                                              <div class="todolist-card flex  flex-col rounded-xl bg-white bg-clip-border text-gray-700 shadow-md">
+                                                <div class="p-6">
+                                                  <div className="title-contnetodo">
+                                                    <h1 class="plan-ahed capitalize break-words mb-2">
+                                                      {item?.title?.length > 20
+                                                        ? item?.title?.slice(
+                                                            0,
+                                                            20
+                                                          ) + "..."
+                                                        : item?.title ?? "N/A"}
+                                                    </h1>
+                                                    <div className="flex gap-2 text-lg mt-1">
+                                                      <Link
+                                                        title="edit"
+                                                        className="EditBut editAdminButton"
+                                                        to={`/todo/${item.id}`}
+                                                      >
+                                                        <svg
+                                                          xmlns="http://www.w3.org/2000/svg"
+                                                          fill="none"
+                                                          viewBox="0 0 24 24"
+                                                          strokeWidth="1.5"
+                                                          stroke="currentColor"
+                                                          class="w-6 h-6"
+                                                        >
+                                                          <path
+                                                            strokeLinecap="round"
+                                                            strokeLinejoin="round"
+                                                            d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
+                                                          />
+                                                        </svg>
+                                                      </Link>
+                                                      <div className="flex ">
+                                                        <button
+                                                          title="delete"
+                                                          className="deletebutt"
+                                                          onClick={() =>
+                                                            deleteHandler(
+                                                              item.id
+                                                            )
+                                                          }
+                                                        >
+                                                          <svg
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                            fill="none"
+                                                            viewBox="0 0 24 24"
+                                                            strokeWidth="1.5"
+                                                            stroke="currentColor"
+                                                            class="w-6 h-6 text-red-600"
+                                                          >
+                                                            <path
+                                                              strokeLinecap="round"
+                                                              strokeLinejoin="round"
+                                                              d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                                                            />
+                                                          </svg>
+                                                        </button>
+                                                      </div>
+                                                    </div>
+                                                  </div>
+
+                                                  <p class="decisions-contnet description-11 capitalize break-words">
+                                                    {item?.description?.length >
+                                                    50
+                                                      ? item?.description?.slice(
+                                                          0,
+                                                          50
+                                                        ) + "..."
+                                                      : item?.description ??
+                                                        "N/A"}
+                                                  </p>
+                                                </div>
+                                                <div class="p-6 pt-0">
+                                                  <Link
+                                                    to={`/todo-details/${item.id}`}
+                                                  >
+                                                    <button
+                                                      class="select-none rounded-lg bg-[#c89e5f] py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                                      type="button"
+                                                      data-ripple-light="true"
+                                                    >
+                                                      Read More
+                                                    </button>
+                                                  </Link>
+                                                </div>
+                                              </div>
+                                            </>
+                                          )
+                                        )}
+                                      </div>
+                                    </>
+                                  ) : (
+                                    <div className="no-founddatameme h-[300px]">
+                                      NO DATA FOUND
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Todo map */}
+
+                    <div className="card-legacydetailsshow mt-4">
+                      <div className="details-pageleg">
+                        <div className="">
+                          <h6 className="team-name legacy-det">Gallery</h6>
+                          <div>
+                            <div>
+                              <div className="Topallpage AllPageHight Custompage">
+                                <div className="addevent-detailscalendar">
+                                  <Link to="/add-image-gallery">
+                                    <button className="add-event-showtab">
+                                      Add Images
+                                    </button>
+                                  </Link>
+                                </div>
+
+                                <div className="Topallpage AllPageHight Custompage mt-4">
+                                  {GetImagesgallery?.length > 0 ? (
+                                    <>
+                                      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                        {GetImagesgallery?.slice(0, 4)?.map(
+                                          (item) => (
+                                            <div className="gallery-imageshowgrid">
+                                              <img
+                                                class="imagegalleryshow max-w-full rounded-lg"
+                                                src={item?.image}
+                                                alt=""
+                                              />
+
+                                              <div className="gallerymenuitem">
+                                                {/* <svg
+                          onClick={handleClick}
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth="1.5"
+                          stroke="currentColor"
+                          class="w-6 h-6 ellipsis-iconshow"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+                          />
+                        </svg> */}
+                                                {/* <Menu
+                          id="basic-menu"
+                          anchorEl={anchorEl}
+                          open={openpopup}
+                          onClose={handleClosepopup}
+                          MenuListProps={{
+                            "aria-labelledby": "basic-button",
+                          }}
+                        >
+                          <MenuItem
+                            onClick={() => {
+                              handleClosepopup();
+                              DeleteImage(item?.id);
+                            }}
+                          > */}
+                                                <div className="flex items-center gap-2">
+                                                  <i
+                                                    onClick={() =>
+                                                      DeleteImage(item?.id)
+                                                    }
+                                                    class="fa fa-trash-o"
+                                                  ></i>
+                                                </div>
+                                                {/* </MenuItem>
+                        </Menu> */}
+                                              </div>
+                                            </div>
+                                          )
+                                        )}
+                                      </div>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <div className="no-founddatameme h-[300px] mt-[100px]">
+                                        NO IMAGES FOUND
+                                      </div>
+                                    </>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/*invite member popup */}
+
+                  <Dialog
+                    open={open}
+                    TransitionComponent={Transition}
+                    keepMounted
+                    onClose={handleClose}
+                    PaperProps={{
+                      style: {
+                        width: "600px",
+                        maxWidth: "800px",
+                      },
+                    }}
+                  >
+                    <DialogTitle>
+                      <div className="flex justify-between">
+                        <div>
+                          <h1 className="edit-profile">Invite User</h1>
+                        </div>
+                        <div>
+                          <svg
+                            onClick={handleClose}
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            fill="none"
+                            className="w-6 h-6 cursor-pointer	"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>
+                        <div>
+                          <div class="p-4 h-auto bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                            <div class="flow-root">
+                              <div className="input-boxdiv mb-6">
+                                <p className="heading-title-legacypage">
+                                  Email Address
+                                </p>
+                                <input
+                                  value={email}
+                                  onChange={(e) => {
+                                    setEmail(e.target.value);
+                                    setErrors({ ...errors, email: null });
+                                  }}
+                                  type="email"
+                                  placeholder="Enter Email Address"
+                                  className="input-legacy-typeenter  w-full px-4 py-3 rounded-lg  bg-white mt-2 border focus:outline-none"
+                                />
+                                <span
+                                  style={{
+                                    color: "red",
+                                    fontSize: "15px",
+                                    opacity: errors.email ? 1 : 0,
+                                  }}
+                                >
+                                  {errors.email ?? "valid"}
+                                </span>
+                              </div>
+
+                              <div className="input-boxdiv mt-2 mb-4">
+                                <p className="heading-title-legacypage">
+                                  User Role
+                                </p>
+                                <select
+                                  value={role}
+                                  onChange={(e) => {
+                                    setErrors({ ...errors, role: null });
+                                    setRole(e.target.value);
+                                  }}
+                                  className="input-legacy-typeenter-select  w-full px-4 py-3 rounded-lg  mt-2 border focus:outline-none"
+                                >
+                                  <option selected>Select user role</option>
+                                  {AllRoleGet?.map((item) => (
+                                    <option value={item?.id}>
+                                      {item?.role}
+                                    </option>
+                                  ))}
+                                </select>
+                                <span
+                                  style={{
+                                    color: "red",
+                                    fontSize: "15px",
+                                    opacity: errors.role ? 1 : 0,
+                                  }}
+                                >
+                                  {errors.role ?? "valid"}
+                                </span>
+                              </div>
+                            </div>
+                            <div className="input-add">
+                              <div className="flex gap-4 mt-12">
+                                <button
+                                  onClick={validateSubmit}
+                                  type="button"
+                                  className="py-3 px-5 mr-2 mb-2 w-full text-sm font-medium text-gray-900 bg-[#c99e59] rounded-lg border border-gray-200  "
+                                >
+                                  Save
+                                </button>
+                                <button
+                                  onClick={handleClose}
+                                  type="button"
+                                  className="w-full py-3 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 bg-white rounded-lg border border-[#c99e59]  "
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </DialogContentText>
+                    </DialogContent>
+                  </Dialog>
+
+                  {/* lagacy code add popup */}
+                  <Dialog
+                    open={codeopen}
+                    TransitionComponent={Transition}
+                    keepMounted
+                    onClose={handleCloseCode}
+                    PaperProps={{
+                      style: {
+                        width: "600px",
+                        maxWidth: "800px",
+                      },
+                    }}
+                  >
+                    <DialogTitle>
+                      <div className="flex justify-between">
+                        <div>
+                          <h1 className="edit-profile">Set Your Family page</h1>
+                        </div>
+                        <div>
+                          <svg
+                            onClick={handleCloseCode}
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            fill="none"
+                            className="w-6 h-6 cursor-pointer	"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>
+                        <div>
+                          <div class="p-4 h-auto bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                            <div class="flow-root">
+                              <div className="input-boxdiv mb-6">
+                                <p className="heading-title-legacypage">
+                                  Password
+                                </p>
+                                <input
+                                  value={addCode}
+                                  onChange={(e) => {
+                                    setAddcode(e.target.value);
+                                    // setErrors({ ...errors, email: null });
+                                  }}
+                                  type="text"
+                                  placeholder="Set Code"
+                                  className="input-legacy-typeenter w-full px-4 py-3 rounded-lg  bg-white mt-2 border focus:outline-none"
+                                />
+                              </div>
+                              <p className="text-right">
+                                <Link
+                                  to="/update-legacy-password"
+                                  className="text-blue-500 hover:text-blue-700 font-semibold ml-2"
+                                >
+                                  update password
+                                </Link>
+                                <span className="mx-2">OR</span>
+                                <Link
+                                  to="/forgot-legacy-password"
+                                  className="text-blue-500 hover:text-blue-700 font-semibold "
+                                >
+                                  forgot password
+                                </Link>
+                              </p>
+                            </div>
+                            <div className="input-add">
+                              <div className="flex gap-4 mt-12">
+                                <button
+                                  onClick={SetUserCodeSubmit}
+                                  type="button"
+                                  className="py-3 px-5 mr-2 mb-2 w-full text-sm font-medium text-gray-900 bg-[#c99e59] rounded-lg border border-gray-200  "
+                                >
+                                  Save
+                                </button>
+                                <button
+                                  onClick={handleCloseCode}
+                                  type="button"
+                                  className="w-full py-3 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 bg-white rounded-lg border border-[#c99e59]  "
+                                >
+                                  Cancel
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </DialogContentText>
+                    </DialogContent>
+                  </Dialog>
+
+                  <Dialog
+                    open={legacypageOpen}
+                    TransitionComponent={Transition}
+                    keepMounted
+                    onClose={handleClickCloseLegacy}
+                    PaperProps={{
+                      style: {
+                        width: "600px",
+                        maxWidth: "800px",
+                      },
+                    }}
+                  >
+                    <DialogTitle>
+                      <div className="flex justify-between">
+                        <div>
+                          <h1 className="edit-profile">Family Page Settings</h1>
+                        </div>
+                        <div>
+                          <svg
+                            onClick={handleClickCloseLegacy}
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            fill="none"
+                            className="w-6 h-6 cursor-pointer	"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>
+                        <div>
+                          <div class="">
+                            <div class="p-4 bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                              <div class="flow-root">
+                                <ul
+                                  role="list"
+                                  class="divide-y divide-gray-200 dark:divide-gray-700"
+                                >
+                                  <li class="py-2">
+                                    <div class="flex items-center space-x-4">
+                                      <div class="">
+                                        <p
+                                          onClick={() => {
+                                            handleClickOpen();
+                                            handleClickCloseLegacy();
+                                          }}
+                                          class="heading-titlelegacy flex gap-4 items-center"
+                                        >
+                                          <i class="fa fa-user-plus"></i>
+                                          Invite User
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </li>
+
+                                  <li class="py-2">
+                                    <div class="flex items-center space-x-4">
+                                      <div class="">
+                                        <p
+                                          onClick={() => {
+                                            handleClickOpenCode();
+                                            handleClickCloseLegacy();
+                                          }}
+                                          class="heading-titlelegacy flex gap-4 items-center"
+                                        >
+                                          <i class="fa fa-lock"></i>
+                                          Protect your Family Page
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </li>
+                                  {/* <li class="py-2">
+                                    <div class="flex items-center space-x-4">
+                                      <div class="">
+                                        <Link
+                                          to={`/edit-legacy/${legacydata?.id}`}
+                                        >
+                                          <p
+                                            onClick={() => {
+                                              handleClickCloseLegacy();
+                                            }}
+                                            class="heading-titlelegacy flex gap-4 items-center"
+                                          >
+                                            <i class="fa fa-edit"></i>
+                                            Edit Legacy
+                                          </p>
+                                        </Link>
+                                      </div>
+                                    </div>
+                                  </li> */}
+
+                                  {/* <li class="py-2">
+                                    <div class="flex items-center space-x-4">
+                                      <div class="">
+                                        <p
+                                          onClick={() => {
+                                            // handleClickCloseLegacy();
+                                            DeleteLegacy();
+                                          }}
+                                          class="heading-titlelegacy flex gap-4 items-center"
+                                        >
+                                          <i class="fa fa-trash-o"></i>
+                                          Delete Legacy
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </li> */}
+
+                                  <div class="flex items-center space-x-4">
+                                    <div class="">
+                                      <div className="participants-add">
+                                        <p class="heading-titlelegacy partici flex gap-4 items-center">
+                                          {MemberListshowLegacy?.length ?? 0}{" "}
+                                          particiapnts
+                                        </p>
+                                      </div>
+                                      <div className="member-listShow">
+                                        <p
+                                          onClick={() => {
+                                            handleClickOpen();
+                                            handleClickCloseLegacy();
+                                          }}
+                                          class="heading-titlelegacy flex gap-4 items-center"
+                                        >
+                                          <button
+                                            type="button"
+                                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                          >
+                                            <svg
+                                              xmlns="http://www.w3.org/2000/svg"
+                                              fill="none"
+                                              viewBox="0 0 24 24"
+                                              strokeWidth="1.5"
+                                              stroke="currentColor"
+                                              class="w-6 h-6"
+                                            >
+                                              <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                d="M12 4.5v15m7.5-7.5h-15"
+                                              />
+                                            </svg>
+
+                                            <span class="sr-only">
+                                              Icon description
+                                            </span>
+                                          </button>
+                                          Add Member
+                                        </p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  {MemberListshowLegacy?.length > 0 ? (
+                                    <li class="py-2">
+                                      <div class="flow-root">
+                                        <ul
+                                          role="list"
+                                          class="divide-y divide-gray-200 dark:divide-gray-700"
+                                        >
+                                          {MemberListshowLegacy?.map((item) => (
+                                            <li class="py-3 sm:py-4">
+                                              <div class="flex items-center space-x-4">
+                                                <div class="flex-shrink-0">
+                                                  {item?.member_info
+                                                    ?.image_url ? (
+                                                    <img
+                                                      class="userprofileimage rounded-full"
+                                                      src={
+                                                        item?.member_info
+                                                          ?.image_url
+                                                      }
+                                                    />
+                                                  ) : (
+                                                    <img
+                                                      class="userprofileimage rounded-full"
+                                                      src="/img/avtarImage.jpg"
+                                                      alt="Person"
+                                                    />
+                                                  )}
+                                                </div>
+                                                <div class="flex-1 min-w-0">
+                                                  <Link
+                                                    to={`/user-profile/${item?.member_info?.id}/`}
+                                                  >
+                                                    <p class="username-textfil text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                      {
+                                                        item?.member_info
+                                                          ?.first_name
+                                                      }
+                                                      {
+                                                        item?.member_info
+                                                          ?.last_name
+                                                      }
+                                                    </p>
+
+                                                    <p class="heading-titlelegacy usernameshow flex gap-4 items-center">
+                                                      {
+                                                        item?.member_info
+                                                          ?.username
+                                                      }
+                                                    </p>
+                                                  </Link>
+                                                </div>
+                                                <div class="userrollShow inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                                                  {item?.user_role}{" "}
+                                                  <svg
+                                                    onClick={handleClick}
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    fill="none"
+                                                    viewBox="0 0 24 24"
+                                                    strokeWidth="1.5"
+                                                    stroke="currentColor"
+                                                    class="w-6 h-6 ellipsis-iconshow"
+                                                  >
+                                                    <path
+                                                      strokeLinecap="round"
+                                                      strokeLinejoin="round"
+                                                      d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+                                                    />
+                                                  </svg>
+                                                  <div>
+                                                    <Menu
+                                                      id="basic-menu"
+                                                      anchorEl={anchorEl}
+                                                      open={openpopup}
+                                                      onClose={handleClosepopup}
+                                                      // onChange={(e) => {
+                                                      //   setPermission_codename_id(
+                                                      //     e.target.value
+                                                      //   );
+                                                      // }}
+                                                      // value={
+                                                      //   permission_codename_id
+                                                      // }
+                                                      MenuListProps={{
+                                                        "aria-labelledby":
+                                                          "basic-button",
+                                                      }}
+                                                    >
+                                                      <MenuItem
+                                                        onClick={() => {
+                                                          handleClickOpenPermission();
+                                                          handleClosepopup();
+                                                          handleClickCloseLegacy();
+                                                          setUser_id(
+                                                            item.member_info?.id
+                                                          );
+                                                        }}
+                                                      >
+                                                        Permission
+                                                      </MenuItem>
+                                                    </Menu>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </li>
+                                          ))}
+                                        </ul>
+                                      </div>
+                                    </li>
+                                  ) : (
+                                    <div className="no-founddatameme nofound-data">
+                                      NO MEMBERS FOUND
+                                    </div>
+                                  )}
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </DialogContentText>
+                    </DialogContent>
+                  </Dialog>
+
+                  {/*permission popup*/}
+                  <Dialog
+                    open={PermissionPopupOpen}
+                    TransitionComponent={Transition}
+                    keepMounted
+                    onClose={handleClickClosePermission}
+                    PaperProps={{
+                      style: {
+                        width: "600px",
+                        maxWidth: "800px",
+                      },
+                    }}
+                  >
+                    <DialogTitle>
+                      <div className="flex justify-between">
+                        <div>
+                          <h1 className="edit-profile">Permissions</h1>
+                        </div>
+                        <div>
+                          <svg
+                            onClick={handleClickClosePermission}
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 24 24"
+                            strokeWidth="1.5"
+                            stroke="currentColor"
+                            fill="none"
+                            className="w-6 h-6 cursor-pointer	"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </DialogTitle>
+                    <DialogContent>
+                      <DialogContentText>
+                        <div>
+                          <div class="p-4 h-auto bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                            <div class="flow-root">
+                              <ul
+                                role="list"
+                                class="divide-y divide-gray-200 dark:divide-gray-700"
+                              >
+                                {PermissionList?.map((item) => (
+                                  <li class="py-3 sm:py-4">
+                                    <div class="fpermission-showlist capitalize">
+                                      <div class="">
+                                        <p className="decisions-contnet capitalize break-words">
+                                          {item?.codename.replace(/_/g, " ")}
+                                        </p>
+                                      </div>
+                                      <div class="">
+                                        <label class="relative inline-flex items-center cursor-pointer">
+                                          {/* <input
+                                            value={item.id}
+                                            defaultChecked={
+                                              // item.id ==
+                                              GetPermissionList?.filter(
+                                                (myListItem) =>
+                                                  myListItem.permission_id ==
+                                                  item.id
+                                              )
+                                            }
+                                            onChange={() => {
+                                              setToggleOn(!toggleOn);
+                                              PermissionSubmit(item.id);
+                                            }}
+                                            type="checkbox"
+                                            class="sr-only peer"
+                                          /> */}
+                                          <input
+                                            // value={item.id}
+                                            checked={isPermissionChecked(
+                                              item.id
+                                            )}
+                                            onChange={() => {
+                                              PermissionSubmit(item.id);
+                                            }}
+                                            type="checkbox"
+                                            className="sr-only peer"
+                                          />
+                                          <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                                        </label>
+                                      </div>
+                                    </div>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                      </DialogContentText>
+                    </DialogContent>
+                  </Dialog>
+
+                  <Stack spacing={2} sx={{ width: "100%" }}>
+                    <Snackbar
+                      open={opensnackbar}
+                      autoHideDuration={2000}
+                      onClose={handleClosesnackbar}
+                    >
+                      <Alert
+                        onClose={handleClosesnackbar}
+                        severity="success"
+                        sx={{ width: "100%" }}
+                      >
+                        This is a success message!
+                      </Alert>
+                    </Snackbar>
+                  </Stack>
+                  <Stack spacing={2} sx={{ width: "100%" }}>
+                    <Snackbar
+                      open={opensnackbar}
+                      autoHideDuration={2000}
+                      onClose={handleClosesnackbar}
+                    >
+                      <Alert
+                        onClose={handleClosesnackbar}
+                        severity="success"
+                        sx={{ width: "100%" }}
+                      >
+                        This is a success message!
+                      </Alert>
+                    </Snackbar>
+                  </Stack>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
+export default Family_page;
